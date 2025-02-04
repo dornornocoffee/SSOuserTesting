@@ -1,6 +1,7 @@
 package com.dornor.spring_test.Model;
 
 public record SSO_user(
+        String request_date,
         String ssoType,
         String systemId,
         String systemName,
