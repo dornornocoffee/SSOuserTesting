@@ -33,7 +33,7 @@ public class SSOController {
         return ssojdbcRepository;
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.OK)
     public Respond setRespond(SSO_user ssoUser, String statusCode, String statusMessage) {
 
         if (ssoUser == null || ssoUser.userId() == null) {
@@ -41,15 +41,24 @@ public class SSOController {
             statusMessage = "ไม่พบข้อมูลสำหรับทำรายการ";
         }
 
-        ResponseData responseData = new ResponseData(ssoUser.userId(),ssoUser.tokenId());
+        if(statusCode == String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR)){
+            ResponseData responseData = new ResponseData(ssoUser.userId(),null);
+            Respond res = new Respond(
+                    statusCode,
+                    statusMessage,
+                    responseData
+            );
+            return res;
+        } else {
+            ResponseData responseData = new ResponseData(ssoUser.userId(),ssoUser.tokenId());
+            Respond res = new Respond(
+                    statusCode,
+                    statusMessage,
+                    responseData
+            );
+            return res;
+        }
 
-        Respond res = new Respond(
-                statusCode,
-                statusMessage,
-                responseData
-        );
-
-        return res;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
