@@ -1,6 +1,10 @@
 # SSO System API test by Spring boot 3.4.2
 This API is for testing create SSO user to the database
 ## Run project
+First of all, you have to run the docker compose
+```
+docker-compose up -v
+```
 Run the following command in a terminal window [ Reminder: This project uses Maven to run, so you need to have the Maven on your PC ]
 ```
 mvn spring-boot:run
