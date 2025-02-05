@@ -1,5 +1,15 @@
 # SSO System API test by Spring boot 3.4.2
 This API is for testing create SSO user to the database
+## Run project
+Run the following command in a terminal window
+```
+mvn spring-boot:run
+```
+(Optional) : Import the project, then you can run the project though the main file named 'SpringTestApplication' if your IDE has a shortcut button for running the project
+```
+src/main/java/com/dornor/spring_test/SpringTestApplication.java
+```
+
 ## Testing steps
 STEP 1 : use this link to test which is generate from swagger ui
 ```
