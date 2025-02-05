@@ -1,17 +1,17 @@
 # SSO System API test by Spring boot 3.4.2
 This API is for testing create SSO user to the database
 ## Run project
-Run the following command in a terminal window [Reminder: This project uses Maven to run, so you need to have the Maven on your PC]
+Run the following command in a terminal window [ Reminder: This project uses Maven to run, so you need to have the Maven on your PC ]
 ```
 mvn spring-boot:run
 ```
-(Optional) : Import the project, then you can run the project though the main file named 'SpringTestApplication' if your IDE has a shortcut button for running the project
+(Optional) : Import the project, then you can run the project though the main file named 'SpringTestApplication'. if your IDE has a shortcut button for running the project
 ```
 src/main/java/com/dornor/spring_test/SpringTestApplication.java
 ```
 
 ## Testing steps
-STEP 1 : use this link to test which is generate from swagger ui
+STEP 1 : Use this link to test which is generate from swagger ui
 ```
 http://localhost:8080/apitest/swagger-ui.html
 ```
@@ -38,7 +38,7 @@ STEP 3 : Create the SSO user within /gentoken, what you need to do is clicking o
   "tokenId": "string"
 }
 ```
-then you will receive the response.
+Then you will receive the response.
 If you sent the data successfully, it will show the response status which have 3 response you can receive.
 ```
 response 200 : ทำรายการเรียบร้อย
