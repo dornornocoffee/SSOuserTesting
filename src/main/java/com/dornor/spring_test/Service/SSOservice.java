@@ -1,68 +1,50 @@
 package com.dornor.spring_test.Service;
 
-import com.dornor.spring_test.Model.Respond;
-import com.dornor.spring_test.Model.ResponseData;
-import com.dornor.spring_test.Model.SSO_user;
-import com.dornor.spring_test.Repository.SSOjdbcRepository;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+import com.dornor.spring_test.Entity.RespondEntity;
+import com.dornor.spring_test.Entity.ResponseDataEntity;
+import com.dornor.spring_test.Entity.SSOUser;
+import com.dornor.spring_test.Repository.SSORepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 public class SSOservice {
-    private SSOjdbcRepository repository;
+    private SSORepository ssoRepository;
 
-    public SSOservice(SSOjdbcRepository repository) {
-        this.repository = repository;
+    public SSOservice(SSORepository ssoRepository) {
+        this.ssoRepository = ssoRepository;
     }
 
-    public Respond createSSO(SSO_user sso_user) {
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        try {
-            if (sso_user == null || sso_user.userId() == null) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ไม่พบข้อมูล");
-            }
-            repository.createSSO(
-                    now,
-                    sso_user.ssoType(),
-                    sso_user.systemId(),
-                    sso_user.systemName(),
-                    sso_user.systemTransactions(),
-                    sso_user.systemPrivileges(),
-                    sso_user.systemUserGroup(),
-                    sso_user.systemLocationGroup(),
-                    sso_user.userId(),
-                    sso_user.userFullName(),
-                    sso_user.userRdOfficeCode(),
-                    sso_user.userOfficeCode(),
-                    sso_user.clientLocation(),
-                    sso_user.locationMachineNumber(),
-                    sso_user.tokenId()
-            );
-            return setResponse(sso_user);
+    public RespondEntity createSSO(SSOUser ssoUser) {
 
-
-        } catch (DataAccessException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ไม่พบฐานข้อมูลทำรายการ");
+        if (ssoUser == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ไม่พบข้อมูล");
+        }
+        if (ssoUser.getRequestDate() == null) {
+            String now = LocalDateTime.now().toString();
+            ssoUser.setRequestDate(now);
         }
 
+        try {
+            ssoRepository.save(ssoUser);
+            return setResponse(ssoUser);
+        } catch (DataAccessException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "ไม่พบฐานข้อมูลทำรายการ", e);
+        }
     }
 
-    public Respond setResponse(SSO_user sso_user) {
-        Respond res = new Respond(String.valueOf(HttpStatus.OK.value()),"ทำรายการเรียบร้อย",new ResponseData(sso_user.userId(),sso_user.tokenId()));
+    public RespondEntity setResponse(SSOUser sso_user) {
+        RespondEntity res = new RespondEntity(String.valueOf(HttpStatus.OK.value()),"ทำรายการเรียบร้อย",new ResponseDataEntity(sso_user.getUserId(),sso_user.getTokenId()));
         return res;
     }
 
-    public List<SSO_user> getAllSSO() {
-        return repository.findAll();
+    public List<SSOUser> getAllSSO() {
+        return ssoRepository.findAll();
     }
 
 

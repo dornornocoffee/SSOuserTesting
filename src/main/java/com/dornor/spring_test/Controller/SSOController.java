@@ -1,26 +1,16 @@
 package com.dornor.spring_test.Controller;
 
-import com.dornor.spring_test.Model.Respond;
-import com.dornor.spring_test.Model.ResponseData;
-import com.dornor.spring_test.Model.SSO_user;
-import com.dornor.spring_test.Repository.SSORepository;
-import com.dornor.spring_test.Repository.SSOjdbcRepository;
+import com.dornor.spring_test.Entity.RespondEntity;
+import com.dornor.spring_test.Entity.SSOUser;
 import com.dornor.spring_test.Service.SSOservice;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -41,8 +31,8 @@ public class SSOController {
             @ApiResponse(responseCode = "404", description = "Users not found"),
             @ApiResponse(responseCode = "500", description = "Internal sever error")
     })
-    public SSOservice getSSOservice() {
-        return ssoservice;
+    public List<SSOUser> getSSOservice() {
+        return ssoservice.getAllSSO();
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -53,7 +43,7 @@ public class SSOController {
             @ApiResponse(responseCode = "404", description = "Information not found"),
             @ApiResponse(responseCode = "500", description = "Database connection failed")
     })
-    public Respond insertSso(@RequestBody SSO_user ssoUser) {
+    public RespondEntity insertSso(@RequestBody SSOUser ssoUser) {
        return ssoservice.createSSO(ssoUser);
     }
 }
