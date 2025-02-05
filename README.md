@@ -1,6 +1,7 @@
 # SSO System API test by Spring boot 3.4.2
 This API is for testing create SSO user to the database
 ## Run project
+Reminder: This project uses Maven to run, so you need to have the Maven on your PC.
 Run the following command in a terminal window
 ```
 mvn spring-boot:run
